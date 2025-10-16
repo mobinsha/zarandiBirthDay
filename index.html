@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <title>تولدتون مبارک آقای زرندی 🎉</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Vazirmatn', sans-serif;
+      background: radial-gradient(circle at 20% 20%, #ffb6c1, #8a2be2);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px 60px;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+      color: white;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #ffe259, #ffa751);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #fffdfd;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: linear-gradient(90deg, #ff512f, #dd2476);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    }
+
+    .confetti,
+    .balloons,
+    .sparks {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .piece,
+    .balloon,
+    .spark {
+      position: absolute;
+      will-change: transform, opacity;
+    }
+
+    .balloon {
+      font-size: 40px;
+      opacity: 0.9;
+      animation: floatUp linear forwards;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-150px) scale(1.3);
+        opacity: 0;
+      }
+    }
+
+    .spark {
+      font-size: 20px;
+      animation: burst 1.2s ease-out forwards;
+    }
+
+    @keyframes burst {
+      0% {
+        opacity: 1;
+        transform: scale(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(3);
+      }
+    }
+
+    .sparkles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 1%, transparent 20%);
+      background-size: 150px 150px;
+      animation: sparkle 6s infinite linear;
+    }
+
+    @keyframes sparkle {
+      from {
+        background-position: 0 0;
+      }
+
+      to {
+        background-position: 150px 150px;
+      }
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="sparkles"></div>
+
+  <div class="card">
+    <h1>🎂 تولدت مبارک جناب آقای زرندی 🎂</h1>
+    <p>
+      یه سال دیگه گذشت و تو هنوز هم همون آدم باحال و دوست‌داشتنی‌ای! 😎<br>
+      امیدوارم امسال برات پر از خنده، موفقیت و کلی لحظه‌ی قشنگ باشه 🎁💫
+    </p>
+
+    <button id="celebrateBtn">شروع جشن 🎉</button>
+    <div class="footer">از طرف مبین ❤️</div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+  <div class="balloons" id="balloons"></div>
+  <div class="sparks" id="sparks"></div>
+
+  <script>
+    const confettiEl = document.getElementById('confetti');
+    const balloonsEl = document.getElementById('balloons');
+    const sparksEl = document.getElementById('sparks');
+    const btn = document.getElementById('celebrateBtn');
+
+    function random(min, max) { return Math.random() * (max - min) + min; }
+
+    function createConfetti(count = 80) {
+      const emojis = ['🎉', '🎊', '🎂', '🎈', '✨', '💫', '🥳', '💖', '🌟'];
+      for (let i = 0; i < count; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'piece';
+        piece.textContent = emojis[Math.floor(random(0, emojis.length))];
+        piece.style.left = random(0, 100) + '%';
+        piece.style.top = '-5%';
+        piece.style.opacity = random(0.7, 1);
+        piece.style.transform = `rotate(${random(0, 360)}deg)`;
+        confettiEl.appendChild(piece);
+
+        const duration = random(2500, 5000);
+        const endX = random(-200, 200);
+        const endY = window.innerHeight + 100;
+        const start = performance.now();
+
+        function animate(now) {
+          const t = Math.min((now - start) / duration, 1);
+          const ease = --t * t * t + 1;
+          piece.style.transform = `translate(${endX * ease}px, ${endY * ease}px) rotate(${360 * ease}deg)`;
+          piece.style.opacity = String(1 - ease);
+          if (ease < 1) requestAnimationFrame(animate);
+          else piece.remove();
+        }
+        requestAnimationFrame(animate);
+      }
+    }
+
+    function createBalloons(count = 25) {
+      const colors = ['🎈', '🎈', '🎈', '🎈', '🎈'];
+      for (let i = 0; i < count; i++) {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        balloon.textContent = colors[Math.floor(random(0, colors.length))];
+        balloon.style.left = random(0, 100) + '%';
+        balloon.style.animationDuration = random(4, 7) + 's';
+        balloonsEl.appendChild(balloon);
+        setTimeout(() => balloon.remove(), 7000);
+      }
+    }
+
+    function createSparks(count = 30) {
+      const sparkEmojis = ['✨', '💫', '🔥', '🌟'];
+      for (let i = 0; i < count; i++) {
+        const spark = document.createElement('div');
+        spark.className = 'spark';
+        spark.textContent = sparkEmojis[Math.floor(random(0, sparkEmojis.length))];
+        spark.style.left = random(0, 100) + '%';
+        spark.style.top = random(0, 100) + '%';
+        sparksEl.appendChild(spark);
+        setTimeout(() => spark.remove(), 1200);
+      }
+    }
+
+    btn.addEventListener('click', () => {
+      createConfetti(100);
+      createBalloons(30);
+      createSparks(40);
+      btn.disabled = true;
+      btn.textContent = '🎊 جشن شروع شد!';
+
+      // آهنگ تولد مبارک 🎵
+      const music = new Audio('https://cdn.pixabay.com/audio/2024/03/26/audio_c6d4e87170.mp3');
+      music.volume = 0.8;
+      music.play();
+
+      // ایجاد افکت‌ها به صورت تکرارشونده برای حس جشن
+      const interval = setInterval(() => {
+        createConfetti(40);
+        createBalloons(10);
+        createSparks(20);
+      }, 3000);
+
+      // پایان جشن بعد از 15 ثانیه
+      setTimeout(() => clearInterval(interval), 30000);
+    });
+  </script>
+</body>
+
+</html>
